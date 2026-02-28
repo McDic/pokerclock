@@ -45,3 +45,35 @@
 .resizeHandle[data-resize-handle-active]::after {
   opacity: 1;
 }
+
+.resizeHandleVertical {
+  width: 4px;
+  background: var(--color-border);
+  transition: background-color 0.15s;
+  cursor: col-resize;
+  position: relative;
+}
+
+.resizeHandleVertical::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 40px;
+  background: var(--color-text-dim);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.resizeHandleVertical:hover,
+.resizeHandleVertical[data-resize-handle-active] {
+  background: var(--color-primary);
+}
+
+.resizeHandleVertical:hover::after,
+.resizeHandleVertical[data-resize-handle-active]::after {
+  opacity: 1;
+}

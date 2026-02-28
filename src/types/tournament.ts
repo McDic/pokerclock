@@ -13,11 +13,18 @@ export interface BreakLevel {
 
 export type Level = BlindLevel | BreakLevel;
 
+export interface PrizeEntry {
+  rankFrom: number;
+  rankTo: number;
+  prize: string;
+}
+
 export interface TournamentStructure {
   version: 1;
   name: string;
   startingChips: number;
   levels: Level[];
+  prizes: PrizeEntry[];
 }
 
 export interface TournamentState {

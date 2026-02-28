@@ -18,6 +18,7 @@ export const DEFAULT_STRUCTURE: TournamentStructure = {
     { type: "blind", smallBlind: 500, bigBlind: 1000, ante: 100, durationMinutes: 15 },
     { type: "blind", smallBlind: 750, bigBlind: 1500, ante: 200, durationMinutes: 15 },
   ],
+  prizes: [],
 };
 
 export function createDefaultState(): TournamentState {
