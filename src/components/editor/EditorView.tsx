@@ -10,7 +10,7 @@ import { validateStructure } from "../../utils/validation";
 import styles from "./EditorView.module.css";
 
 export function EditorView() {
-  const { structure, currentLevelIndex, playerCount } = useTournamentState();
+  const { structure, currentLevelIndex, playerCount, eliminatedCount } = useTournamentState();
   const dispatch = useTournamentDispatch();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,16 +112,32 @@ export function EditorView() {
               />
             </div>
             <div className={styles.field}>
-              <label className={styles.fieldLabel}>Players</label>
+              <label className={styles.fieldLabel}>Total Entries</label>
               <input
                 className={styles.input}
                 type="number"
-                min={1}
+                min={0}
                 value={playerCount}
                 onChange={(e) =>
                   dispatch({
                     type: "PLAYER_SET",
                     playerCount: Number(e.target.value),
+                  })
+                }
+              />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Eliminated</label>
+              <input
+                className={styles.input}
+                type="number"
+                min={0}
+                max={Math.max(0, playerCount - 1)}
+                value={eliminatedCount}
+                onChange={(e) =>
+                  dispatch({
+                    type: "PLAYER_SET_ELIMINATED",
+                    eliminatedCount: Number(e.target.value),
                   })
                 }
               />
