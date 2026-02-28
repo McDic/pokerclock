@@ -3,7 +3,7 @@ import {
   useTournamentState,
   useTournamentDispatch,
 } from "../../context/TournamentContext";
-import type { TournamentStructure, Level } from "../../types/tournament";
+import type { TournamentStructure, Level, PrizeEntry } from "../../types/tournament";
 import { LevelRow } from "./LevelRow";
 import { exportStructure, importStructure } from "../../utils/export";
 import { validateStructure } from "../../utils/validation";
@@ -60,6 +60,24 @@ export function EditorView() {
   function addBreak() {
     update({
       levels: [...structure.levels, { type: "break", durationMinutes: 10 }],
+    });
+  }
+
+  function updatePrize(index: number, entry: PrizeEntry) {
+    const prizes = [...structure.prizes];
+    prizes[index] = entry;
+    update({ prizes });
+  }
+
+  function deletePrize(index: number) {
+    update({ prizes: structure.prizes.filter((_, i) => i !== index) });
+  }
+
+  function addPrize() {
+    const last = structure.prizes[structure.prizes.length - 1];
+    const nextRank = last ? last.rankTo + 1 : 1;
+    update({
+      prizes: [...structure.prizes, { rankFrom: nextRank, rankTo: nextRank, prize: "" }],
     });
   }
 
@@ -143,6 +161,65 @@ export function EditorView() {
               />
             </div>
           </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Prizes</h2>
+          {structure.prizes.map((entry, i) => (
+            <div key={i} className={styles.row}>
+              <div className={styles.field}>
+                <label className={styles.fieldLabel}>From</label>
+                <input
+                  className={styles.input}
+                  type="number"
+                  min={1}
+                  value={entry.rankFrom}
+                  onChange={(e) =>
+                    updatePrize(i, {
+                      ...entry,
+                      rankFrom: Math.max(1, Number(e.target.value)),
+                    })
+                  }
+                />
+              </div>
+              <div className={styles.field}>
+                <label className={styles.fieldLabel}>To</label>
+                <input
+                  className={styles.input}
+                  type="number"
+                  min={entry.rankFrom}
+                  value={entry.rankTo}
+                  onChange={(e) =>
+                    updatePrize(i, {
+                      ...entry,
+                      rankTo: Math.max(entry.rankFrom, Number(e.target.value)),
+                    })
+                  }
+                />
+              </div>
+              <div className={styles.field} style={{ flex: 1 }}>
+                <label className={styles.fieldLabel}>Prize</label>
+                <input
+                  className={`${styles.input} ${styles.inputWide}`}
+                  value={entry.prize}
+                  placeholder="e.g. $10,000"
+                  onChange={(e) =>
+                    updatePrize(i, { ...entry, prize: e.target.value })
+                  }
+                />
+              </div>
+              <button
+                className={styles.prizeDeleteBtn}
+                onClick={() => deletePrize(i)}
+                title="Remove Prize"
+              >
+                &#x2715;
+              </button>
+            </div>
+          ))}
+          <button className={styles.toolbarBtn} onClick={addPrize}>
+            + Add Prize
+          </button>
         </div>
 
         <div className={styles.section}>

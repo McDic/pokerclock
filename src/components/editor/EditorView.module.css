@@ -101,6 +101,25 @@
   background: rgba(239, 68, 68, 0.15);
 }
 
+.prizeDeleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  align-self: flex-end;
+  margin-bottom: 0.25rem;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.prizeDeleteBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+}
+
 .toolbarSpacer {
   flex: 1;
 }

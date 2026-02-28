@@ -209,6 +209,10 @@ function loadState(): TournamentState {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored) as TournamentState;
+      // Backward compat: ensure prizes array exists
+      if (!parsed.structure.prizes) {
+        parsed.structure.prizes = [];
+      }
       // Always restore paused
       return { ...parsed, isRunning: false };
     }
