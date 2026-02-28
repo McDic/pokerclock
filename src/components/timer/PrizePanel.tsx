@@ -14,8 +14,9 @@ function rankLabel(entry: PrizeEntry): string {
 }
 
 export function PrizePanel() {
-  const { structure } = useTournamentState();
+  const { structure, playerCount, eliminatedCount } = useTournamentState();
   const { prizes } = structure;
+  const remainingPlayers = playerCount - eliminatedCount;
 
   return (
     <div className={styles.container}>
@@ -24,12 +25,21 @@ export function PrizePanel() {
         <div className={styles.empty}>No prizes configured</div>
       ) : (
         <div className={styles.list}>
-          {prizes.map((entry, i) => (
-            <div key={i} className={styles.entry}>
-              <span className={styles.rank}>{rankLabel(entry)}</span>
-              <span className={styles.prize}>{entry.prize}</span>
-            </div>
-          ))}
+          {prizes.map((entry, i) => {
+            const isCurrent =
+              remainingPlayers > 0 &&
+              entry.rankFrom <= remainingPlayers &&
+              remainingPlayers <= entry.rankTo;
+            return (
+              <div
+                key={i}
+                className={`${styles.entry} ${isCurrent ? styles.current : ""}`}
+              >
+                <span className={styles.rank}>{rankLabel(entry)}</span>
+                <span className={styles.prize}>{entry.prize}</span>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
