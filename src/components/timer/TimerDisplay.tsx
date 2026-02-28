@@ -1,6 +1,9 @@
-import { useTournamentState } from "../../context/TournamentContext";
+import { useCallback, useRef } from "react";
+import { useTournamentState, useTournamentDispatch } from "../../context/TournamentContext";
 import { formatTime } from "../../utils/format";
 import styles from "./TimerDisplay.module.css";
+
+const WHEEL_THRESHOLD = 50; // accumulated delta pixels per 1-second step
 
 function getTimerClass(
   isRunning: boolean,
@@ -29,6 +32,8 @@ function getTimerColor(
 export function TimerDisplay() {
   const { remainingSeconds, isRunning, currentLevelIndex, structure } =
     useTournamentState();
+  const dispatch = useTournamentDispatch();
+  const accumulatedDelta = useRef(0);
 
   const level = structure.levels[currentLevelIndex];
   const isBreak = level.type === "break";
@@ -39,8 +44,28 @@ export function TimerDisplay() {
     ? "Break"
     : `Level ${currentLevelIndex + 1}`;
 
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      e.preventDefault();
+      accumulatedDelta.current += e.deltaY;
+
+      const steps = Math.trunc(accumulatedDelta.current / WHEEL_THRESHOLD);
+      if (steps === 0) return;
+
+      accumulatedDelta.current -= steps * WHEEL_THRESHOLD;
+      const abSteps = Math.abs(steps);
+
+      if (steps > 0) {
+        dispatch({ type: "TIMER_ADVANCE", seconds: abSteps });
+      } else {
+        dispatch({ type: "TIMER_REWIND", seconds: abSteps });
+      }
+    },
+    [dispatch]
+  );
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onWheel={handleWheel}>
       <div className={styles.levelLabel}>{label}</div>
       <div className={`${styles.time} ${getTimerClass(isRunning, remainingSeconds, isBreak)}`}>
         {formatTime(remainingSeconds)}
