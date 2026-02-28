@@ -18,8 +18,8 @@ export type Action =
   | { type: "TIMER_PAUSE" }
   | { type: "TIMER_TOGGLE" }
   | { type: "TIMER_RESET_LEVEL" }
-  | { type: "TIMER_ADD_MINUTE" }
-  | { type: "TIMER_SUB_MINUTE" }
+  | { type: "TIMER_REWIND"; seconds: number }
+  | { type: "TIMER_ADVANCE"; seconds: number }
   | { type: "LEVEL_NEXT" }
   | { type: "LEVEL_PREV" }
   | { type: "PLAYER_ADD" }
@@ -37,16 +37,17 @@ function reducer(state: TournamentState, action: Action): TournamentState {
       if (!state.isRunning || state.remainingSeconds <= 0) return state;
       const next = state.remainingSeconds - 1;
       if (next <= 0) {
-        // Auto-advance to next level
+        // Auto-advance to next level, keep running
         const nextIndex = state.currentLevelIndex + 1;
         if (nextIndex < state.structure.levels.length) {
           return {
             ...state,
-            remainingSeconds: 0,
-            isRunning: false,
             currentLevelIndex: nextIndex,
+            remainingSeconds: state.structure.levels[nextIndex].durationMinutes * 60,
+            isRunning: true,
           };
         }
+        // Final level ended
         return { ...state, remainingSeconds: 0, isRunning: false };
       }
       return { ...state, remainingSeconds: next };
@@ -72,11 +73,55 @@ function reducer(state: TournamentState, action: Action): TournamentState {
       };
     }
 
-    case "TIMER_ADD_MINUTE":
-      return { ...state, remainingSeconds: state.remainingSeconds + 60 };
+    case "TIMER_REWIND": {
+      const secs = action.seconds;
+      const curDuration = state.structure.levels[state.currentLevelIndex].durationMinutes * 60;
+      const elapsed = curDuration - state.remainingSeconds;
 
-    case "TIMER_SUB_MINUTE":
-      return { ...state, remainingSeconds: Math.max(0, state.remainingSeconds - 60) };
+      if (elapsed >= secs) {
+        return { ...state, remainingSeconds: state.remainingSeconds + secs };
+      }
+
+      let rewindLeft = secs - elapsed;
+      let idx = state.currentLevelIndex - 1;
+
+      while (idx >= 0) {
+        const prevDuration = state.structure.levels[idx].durationMinutes * 60;
+        if (rewindLeft <= prevDuration) {
+          return { ...state, currentLevelIndex: idx, remainingSeconds: rewindLeft };
+        }
+        rewindLeft -= prevDuration;
+        idx--;
+      }
+
+      return {
+        ...state,
+        currentLevelIndex: 0,
+        remainingSeconds: state.structure.levels[0].durationMinutes * 60,
+      };
+    }
+
+    case "TIMER_ADVANCE": {
+      const secs = action.seconds;
+      if (state.remainingSeconds > secs) {
+        return { ...state, remainingSeconds: state.remainingSeconds - secs };
+      }
+
+      let advanceLeft = secs - state.remainingSeconds;
+      let idx = state.currentLevelIndex + 1;
+
+      while (idx < state.structure.levels.length) {
+        const nextDuration = state.structure.levels[idx].durationMinutes * 60;
+        if (advanceLeft < nextDuration) {
+          return { ...state, currentLevelIndex: idx, remainingSeconds: nextDuration - advanceLeft };
+        }
+        advanceLeft -= nextDuration;
+        idx++;
+      }
+
+      const lastIdx = state.structure.levels.length - 1;
+      return { ...state, currentLevelIndex: lastIdx, remainingSeconds: 0, isRunning: false };
+    }
 
     case "LEVEL_NEXT": {
       const nextIdx = state.currentLevelIndex + 1;

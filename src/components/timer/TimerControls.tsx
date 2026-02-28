@@ -28,10 +28,18 @@ export function TimerControls() {
 
       <button
         className={styles.btn}
-        onClick={() => dispatch({ type: "TIMER_ADD_MINUTE" })}
-        title="Add 1 Minute (go back)"
+        onClick={() => dispatch({ type: "TIMER_REWIND", seconds: 60 })}
+        title="Rewind 1 Minute"
       >
         {"< 1m"}
+      </button>
+
+      <button
+        className={styles.btn}
+        onClick={() => dispatch({ type: "TIMER_REWIND", seconds: 10 })}
+        title="Rewind 10 Seconds"
+      >
+        {"< 10s"}
       </button>
 
       <button
@@ -44,8 +52,16 @@ export function TimerControls() {
 
       <button
         className={styles.btn}
-        onClick={() => dispatch({ type: "TIMER_SUB_MINUTE" })}
-        title="Subtract 1 Minute (advance)"
+        onClick={() => dispatch({ type: "TIMER_ADVANCE", seconds: 10 })}
+        title="Advance 10 Seconds"
+      >
+        {"10s >"}
+      </button>
+
+      <button
+        className={styles.btn}
+        onClick={() => dispatch({ type: "TIMER_ADVANCE", seconds: 60 })}
+        title="Advance 1 Minute"
       >
         {"1m >"}
       </button>
