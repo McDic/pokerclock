@@ -38,3 +38,24 @@
   background: var(--color-primary);
   color: var(--color-text);
 }
+
+.githubLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border-radius: var(--border-radius);
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s;
+  margin-left: 0.25rem;
+}
+
+.githubLink:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.githubIcon {
+  width: 20px;
+  height: 20px;
+}
