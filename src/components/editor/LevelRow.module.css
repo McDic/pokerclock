@@ -1,0 +1,100 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  flex-wrap: wrap;
+}
+
+.row.active {
+  border-color: var(--color-primary);
+}
+
+.row.break {
+  border-color: var(--color-break);
+  border-style: dashed;
+}
+
+.index {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  min-width: 2rem;
+  text-align: center;
+}
+
+.type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.type.blind {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--color-running);
+}
+
+.type.break {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--color-break);
+}
+
+.input {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  width: 80px;
+  font-variant-numeric: tabular-nums;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.inputLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-dim);
+}
+
+.fieldGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.iconBtn:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+
+.iconBtn.delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+}

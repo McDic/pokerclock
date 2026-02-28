@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.panels {
+  flex: 1;
+  min-height: 0;
+}
+
+.panel {
+  display: flex;
+  align-items: stretch;
+}
+
+.resizeHandle {
+  height: 4px;
+  background: var(--color-border);
+  transition: background-color 0.15s;
+  cursor: row-resize;
+  position: relative;
+}
+
+.resizeHandle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 2px;
+  background: var(--color-text-dim);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.resizeHandle:hover,
+.resizeHandle[data-resize-handle-active] {
+  background: var(--color-primary);
+}
+
+.resizeHandle:hover::after,
+.resizeHandle[data-resize-handle-active]::after {
+  opacity: 1;
+}

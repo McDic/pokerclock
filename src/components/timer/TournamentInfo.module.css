@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0.25rem 1rem;
+  gap: clamp(1rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.statValue {
+  font-size: var(--info-font-size);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: calc(var(--info-font-size) * 0.75);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
