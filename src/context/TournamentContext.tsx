@@ -18,6 +18,8 @@ export type Action =
   | { type: "TIMER_PAUSE" }
   | { type: "TIMER_TOGGLE" }
   | { type: "TIMER_RESET_LEVEL" }
+  | { type: "TIMER_ADD_MINUTE" }
+  | { type: "TIMER_SUB_MINUTE" }
   | { type: "LEVEL_NEXT" }
   | { type: "LEVEL_PREV" }
   | { type: "PLAYER_ADD" }
@@ -70,6 +72,12 @@ function reducer(state: TournamentState, action: Action): TournamentState {
       };
     }
 
+    case "TIMER_ADD_MINUTE":
+      return { ...state, remainingSeconds: state.remainingSeconds + 60 };
+
+    case "TIMER_SUB_MINUTE":
+      return { ...state, remainingSeconds: Math.max(0, state.remainingSeconds - 60) };
+
     case "LEVEL_NEXT": {
       const nextIdx = state.currentLevelIndex + 1;
       if (nextIdx >= state.structure.levels.length) return state;
@@ -102,8 +110,8 @@ function reducer(state: TournamentState, action: Action): TournamentState {
     case "PLAYER_SET":
       return {
         ...state,
-        playerCount: Math.max(1, action.playerCount),
-        eliminatedCount: Math.min(state.eliminatedCount, Math.max(1, action.playerCount) - 1),
+        playerCount: Math.max(0, action.playerCount),
+        eliminatedCount: Math.min(state.eliminatedCount, Math.max(0, action.playerCount)),
       };
 
     case "PLAYER_SET_ELIMINATED":

@@ -26,7 +26,7 @@ export function createDefaultState(): TournamentState {
     currentLevelIndex: 0,
     remainingSeconds: DEFAULT_STRUCTURE.levels[0].durationMinutes * 60,
     isRunning: false,
-    playerCount: 10,
+    playerCount: 0,
     eliminatedCount: 0,
     view: "timer",
   };

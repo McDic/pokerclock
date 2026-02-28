@@ -23,7 +23,15 @@ export function TimerControls() {
         disabled={isFirst}
         title="Previous Level"
       >
-        &#x23EE;
+        {"\u23EE"}
+      </button>
+
+      <button
+        className={styles.btn}
+        onClick={() => dispatch({ type: "TIMER_ADD_MINUTE" })}
+        title="Add 1 Minute (go back)"
+      >
+        {"< 1m"}
       </button>
 
       <button
@@ -31,7 +39,15 @@ export function TimerControls() {
         onClick={() => dispatch({ type: "TIMER_TOGGLE" })}
         title={isRunning ? "Pause" : "Play"}
       >
-        {isRunning ? "Pause" : "Play"}
+        {isRunning ? "\u23F8" : "\u25B6"}
+      </button>
+
+      <button
+        className={styles.btn}
+        onClick={() => dispatch({ type: "TIMER_SUB_MINUTE" })}
+        title="Subtract 1 Minute (advance)"
+      >
+        {"1m >"}
       </button>
 
       <button
@@ -40,15 +56,7 @@ export function TimerControls() {
         disabled={isLast}
         title="Next Level"
       >
-        &#x23ED;
-      </button>
-
-      <button
-        className={styles.btn}
-        onClick={() => dispatch({ type: "TIMER_RESET_LEVEL" })}
-        title="Reset Level Timer"
-      >
-        &#x21BB;
+        {"\u23ED"}
       </button>
 
       <div className={styles.spacer} />
@@ -58,10 +66,10 @@ export function TimerControls() {
         <button
           className={styles.smallBtn}
           onClick={() => dispatch({ type: "PLAYER_ELIMINATE" })}
-          disabled={remaining <= 1}
+          disabled={remaining <= 0}
           title="Eliminate Player"
         >
-          &minus;
+          {"\u2212"}
         </button>
         <button
           className={styles.smallBtn}
@@ -79,7 +87,7 @@ export function TimerControls() {
         onClick={toggleFullscreen}
         title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
       >
-        {isFullscreen ? "&#x2716;" : "&#x26F6;"}
+        {isFullscreen ? "\u2716" : "\u26F6"}
       </button>
     </div>
   );
