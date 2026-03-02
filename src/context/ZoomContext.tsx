@@ -16,7 +16,7 @@ type ZoomAction =
   | { type: "ZOOM_OUT"; panel: PanelId };
 
 const ZOOM_MIN = 0.5;
-const ZOOM_MAX = 2.0;
+const ZOOM_MAX = 4.0;
 const ZOOM_STEP = 0.1;
 const STORAGE_KEY = "pokerclock-zoom";
 
@@ -35,7 +35,7 @@ function reducer(state: ZoomState, action: ZoomAction): ZoomState {
   }
 }
 
-const defaultZoom: ZoomState = { timer: 1.0, blinds: 1.0, info: 1.0, prizes: 1.0 };
+const defaultZoom: ZoomState = { timer: 2.0, blinds: 2.0, info: 2.0, prizes: 2.0 };
 
 function loadZoom(): ZoomState {
   try {
