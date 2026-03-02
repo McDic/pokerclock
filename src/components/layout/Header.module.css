@@ -48,6 +48,22 @@
   line-height: 1;
 }
 
+.muteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border-radius: var(--border-radius);
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s;
+  margin-left: 0.25rem;
+}
+
+.muteBtn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
 .githubLink {
   display: flex;
   align-items: center;
