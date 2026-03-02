@@ -1,9 +1,12 @@
 import { useTournamentState } from "../../context/TournamentContext";
+import { useZoom } from "../../context/ZoomContext";
+import { ZoomControls } from "./ZoomControls";
 import { formatChips } from "../../utils/format";
 import styles from "./BlindInfo.module.css";
 
 export function BlindInfo() {
   const { currentLevelIndex, structure } = useTournamentState();
+  const { zoom } = useZoom("blinds");
   const level = structure.levels[currentLevelIndex];
   const nextLevel =
     currentLevelIndex + 1 < structure.levels.length
@@ -12,39 +15,42 @@ export function BlindInfo() {
 
   return (
     <div className={styles.container}>
-      {level.type === "blind" ? (
-        <>
-          <div className={styles.label}>Blinds</div>
-          <div className={styles.current}>
-            {formatChips(level.smallBlind)} / {formatChips(level.bigBlind)}
-            {level.ante > 0 && (
-              <span style={{ color: "var(--color-text-muted)", fontSize: "0.7em" }}>
-                {" "}
-                Ante {formatChips(level.ante)}
-              </span>
-            )}
-          </div>
-        </>
-      ) : (
-        <>
-          <div className={styles.label}>Break</div>
-          <div className={styles.current} style={{ color: "var(--color-break)" }}>
-            Break Time
-          </div>
-        </>
-      )}
+      <ZoomControls panel="blinds" />
+      <div style={{ transform: `scale(${zoom})`, textAlign: "center" }}>
+        {level.type === "blind" ? (
+          <>
+            <div className={styles.label}>Blinds</div>
+            <div className={styles.current}>
+              {formatChips(level.smallBlind)} / {formatChips(level.bigBlind)}
+              {level.ante > 0 && (
+                <span style={{ color: "var(--color-text-muted)", fontSize: "0.7em" }}>
+                  {" "}
+                  Ante {formatChips(level.ante)}
+                </span>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles.label}>Break</div>
+            <div className={styles.current} style={{ color: "var(--color-break)" }}>
+              Break Time
+            </div>
+          </>
+        )}
 
-      {nextLevel && (
-        <div className={styles.next}>
-          Next:{" "}
-          {nextLevel.type === "blind"
-            ? `${formatChips(nextLevel.smallBlind)} / ${formatChips(nextLevel.bigBlind)}${nextLevel.ante > 0 ? ` (Ante ${formatChips(nextLevel.ante)})` : ""}`
-            : "Break"}
-        </div>
-      )}
-      {!nextLevel && (
-        <div className={styles.next}>Final Level</div>
-      )}
+        {nextLevel && (
+          <div className={styles.next}>
+            Next:{" "}
+            {nextLevel.type === "blind"
+              ? `${formatChips(nextLevel.smallBlind)} / ${formatChips(nextLevel.bigBlind)}${nextLevel.ante > 0 ? ` (Ante ${formatChips(nextLevel.ante)})` : ""}`
+              : "Break"}
+          </div>
+        )}
+        {!nextLevel && (
+          <div className={styles.next}>Final Level</div>
+        )}
+      </div>
     </div>
   );
 }

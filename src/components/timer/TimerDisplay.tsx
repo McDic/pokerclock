@@ -1,5 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useTournamentState, useTournamentDispatch } from "../../context/TournamentContext";
+import { useZoom } from "../../context/ZoomContext";
+import { ZoomControls } from "./ZoomControls";
 import { formatTime } from "../../utils/format";
 import styles from "./TimerDisplay.module.css";
 
@@ -33,6 +35,7 @@ export function TimerDisplay() {
   const { remainingSeconds, isRunning, currentLevelIndex, structure } =
     useTournamentState();
   const dispatch = useTournamentDispatch();
+  const { zoom } = useZoom("timer");
   const accumulatedDelta = useRef(0);
 
   const level = structure.levels[currentLevelIndex];
@@ -66,18 +69,21 @@ export function TimerDisplay() {
 
   return (
     <div className={styles.container} onWheel={handleWheel}>
-      <div className={styles.levelLabel}>{label}</div>
-      <div className={`${styles.time} ${getTimerClass(isRunning, remainingSeconds, isBreak)}`}>
-        {formatTime(remainingSeconds)}
-      </div>
-      <div className={styles.progressBar}>
-        <div
-          className={styles.progressFill}
-          style={{
-            width: `${Math.min(100, progress)}%`,
-            backgroundColor: getTimerColor(isRunning, remainingSeconds, isBreak),
-          }}
-        />
+      <ZoomControls panel="timer" />
+      <div style={{ transform: `scale(${zoom})`, textAlign: "center" }}>
+        <div className={styles.levelLabel}>{label}</div>
+        <div className={`${styles.time} ${getTimerClass(isRunning, remainingSeconds, isBreak)}`}>
+          {formatTime(remainingSeconds)}
+        </div>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{
+              width: `${Math.min(100, progress)}%`,
+              backgroundColor: getTimerColor(isRunning, remainingSeconds, isBreak),
+            }}
+          />
+        </div>
       </div>
     </div>
   );

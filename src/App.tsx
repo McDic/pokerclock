@@ -4,6 +4,7 @@ import {
   useTournamentState,
   useTournamentDispatch,
 } from "./context/TournamentContext";
+import { ZoomProvider } from "./context/ZoomContext";
 import { Header } from "./components/layout/Header";
 import { TimerView } from "./components/timer/TimerView";
 import { EditorView } from "./components/editor/EditorView";
@@ -62,7 +63,9 @@ function AppContent() {
 export default function App() {
   return (
     <TournamentProvider>
-      <AppContent />
+      <ZoomProvider>
+        <AppContent />
+      </ZoomProvider>
     </TournamentProvider>
   );
 }

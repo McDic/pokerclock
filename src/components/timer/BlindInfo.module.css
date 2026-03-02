@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,6 +7,10 @@
   height: 100%;
   padding: 0.5rem 1rem;
   gap: 0.25rem;
+}
+
+.container:hover [class*="controls"] {
+  opacity: 1;
 }
 
 .current {

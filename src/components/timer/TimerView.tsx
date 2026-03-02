@@ -18,12 +18,12 @@ export function TimerView() {
 
   const verticalLayout = useDefaultLayout({
     id: "timer-panels",
-    storage: localStorage,
+    storage: sessionStorage,
   });
 
   const horizontalLayout = useDefaultLayout({
     id: "timer-layout",
-    storage: localStorage,
+    storage: sessionStorage,
   });
 
   const verticalPanels = (

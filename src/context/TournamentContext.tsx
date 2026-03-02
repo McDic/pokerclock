@@ -206,7 +206,7 @@ function reducer(state: TournamentState, action: Action): TournamentState {
 
 function loadState(): TournamentState {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = sessionStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored) as TournamentState;
       // Backward compat: ensure prizes array exists
@@ -224,7 +224,7 @@ function loadState(): TournamentState {
 
 function saveState(state: TournamentState): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
     // Storage full — silently fail
   }
