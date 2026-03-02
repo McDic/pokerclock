@@ -9,6 +9,15 @@ export function TournamentInfo() {
     useTournamentState();
   const { zoom } = useZoom("info");
 
+  const level = structure.levels[currentLevelIndex];
+  const isBreak = level.type === "break";
+  const blindLevelNumber = structure.levels
+    .slice(0, currentLevelIndex + 1)
+    .filter((l) => l.type !== "break").length;
+  const breakNumber = structure.levels
+    .slice(0, currentLevelIndex + 1)
+    .filter((l) => l.type === "break").length;
+  const totalBlindLevels = structure.levels.filter((l) => l.type !== "break").length;
   const remaining = playerCount - eliminatedCount;
   const avgStack =
     remaining > 0
@@ -29,7 +38,7 @@ export function TournamentInfo() {
         </div>
         <div className={styles.stat}>
           <span className={styles.statValue}>
-            {currentLevelIndex + 1} / {structure.levels.length}
+            {isBreak ? `B${breakNumber}` : blindLevelNumber} / {totalBlindLevels}
           </span>
           <span className={styles.statLabel}>Level</span>
         </div>
