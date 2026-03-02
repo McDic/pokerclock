@@ -43,9 +43,10 @@ export function TimerDisplay() {
   const totalSeconds = level.durationMinutes * 60;
   const progress = totalSeconds > 0 ? ((totalSeconds - remainingSeconds) / totalSeconds) * 100 : 100;
 
-  const label = isBreak
-    ? "Break"
-    : `Level ${currentLevelIndex + 1}`;
+  const blindLevelNumber = structure.levels
+    .slice(0, currentLevelIndex + 1)
+    .filter((l) => l.type !== "break").length;
+  const label = isBreak ? "Break" : `Level ${blindLevelNumber}`;
 
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
