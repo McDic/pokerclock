@@ -28,7 +28,7 @@
 .time.paused { color: var(--color-paused); }
 
 .levelLabel {
-  font-size: var(--info-font-size);
+  font-size: calc(var(--info-font-size) * 2);
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
