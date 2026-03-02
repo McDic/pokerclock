@@ -1,4 +1,6 @@
 import { useTournamentState } from "../../context/TournamentContext";
+import { useZoom } from "../../context/ZoomContext";
+import { ZoomControls } from "./ZoomControls";
 import type { PrizeEntry } from "../../types/tournament";
 import styles from "./PrizePanel.module.css";
 
@@ -15,33 +17,37 @@ function rankLabel(entry: PrizeEntry): string {
 
 export function PrizePanel() {
   const { structure, playerCount, eliminatedCount } = useTournamentState();
+  const { zoom } = useZoom("prizes");
   const { prizes } = structure;
   const remainingPlayers = playerCount - eliminatedCount;
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>Prizes</div>
-      {prizes.length === 0 ? (
-        <div className={styles.empty}>No prizes configured</div>
-      ) : (
-        <div className={styles.list}>
-          {prizes.map((entry, i) => {
-            const isCurrent =
-              remainingPlayers > 0 &&
-              entry.rankFrom <= remainingPlayers &&
-              remainingPlayers <= entry.rankTo;
-            return (
-              <div
-                key={i}
-                className={`${styles.entry} ${isCurrent ? styles.current : ""}`}
-              >
-                <span className={styles.rank}>{rankLabel(entry)}</span>
-                <span className={styles.prize}>{entry.prize}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <ZoomControls panel="prizes" />
+      <div style={{ transform: `scale(${zoom})`, transformOrigin: "top center" }}>
+        <div className={styles.title}>Prizes</div>
+        {prizes.length === 0 ? (
+          <div className={styles.empty}>No prizes configured</div>
+        ) : (
+          <div className={styles.list}>
+            {prizes.map((entry, i) => {
+              const isCurrent =
+                remainingPlayers > 0 &&
+                entry.rankFrom <= remainingPlayers &&
+                remainingPlayers <= entry.rankTo;
+              return (
+                <div
+                  key={i}
+                  className={`${styles.entry} ${isCurrent ? styles.current : ""}`}
+                >
+                  <span className={styles.rank}>{rankLabel(entry)}</span>
+                  <span className={styles.prize}>{entry.prize}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

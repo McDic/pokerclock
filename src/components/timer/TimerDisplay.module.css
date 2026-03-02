@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,6 +7,10 @@
   height: 100%;
   padding: 1rem;
   gap: 0.5rem;
+}
+
+.container:hover [class*="controls"] {
+  opacity: 1;
 }
 
 .time {
@@ -30,9 +35,9 @@
 }
 
 .progressBar {
-  width: 80%;
-  max-width: 600px;
+  width: 100%;
   height: 4px;
+  margin-top: 0.5rem;
   background: var(--color-border);
   border-radius: 2px;
   overflow: hidden;
