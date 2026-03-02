@@ -5,16 +5,19 @@ import {
   useTournamentDispatch,
 } from "./context/TournamentContext";
 import { ZoomProvider } from "./context/ZoomContext";
+import { SoundProvider } from "./context/SoundContext";
 import { Header } from "./components/layout/Header";
 import { TimerView } from "./components/timer/TimerView";
 import { EditorView } from "./components/editor/EditorView";
 import { useFullscreen } from "./hooks/useFullscreen";
+import { useLevelChangeAlert } from "./hooks/useLevelChangeAlert";
 import styles from "./App.module.css";
 
 function AppContent() {
   const { view } = useTournamentState();
   const dispatch = useTournamentDispatch();
   const { isFullscreen } = useFullscreen();
+  useLevelChangeAlert();
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -64,7 +67,9 @@ export default function App() {
   return (
     <TournamentProvider>
       <ZoomProvider>
-        <AppContent />
+        <SoundProvider>
+          <AppContent />
+        </SoundProvider>
       </ZoomProvider>
     </TournamentProvider>
   );

@@ -35,7 +35,7 @@ function reducer(state: ZoomState, action: ZoomAction): ZoomState {
   }
 }
 
-const defaultZoom: ZoomState = { timer: 2.0, blinds: 2.0, info: 2.0, prizes: 2.0 };
+const defaultZoom: ZoomState = { timer: 2.0, blinds: 2.0, info: 2.0, prizes: 1.0 };
 
 function loadZoom(): ZoomState {
   try {

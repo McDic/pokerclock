@@ -17,6 +17,7 @@
 
 .nav {
   display: flex;
+  align-items: center;
   gap: 0.25rem;
 }
 
@@ -36,6 +37,30 @@
 
 .navBtn.active {
   background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.version {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  margin-left: 0.25rem;
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.muteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border-radius: var(--border-radius);
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s;
+  margin-left: 0.25rem;
+}
+
+.muteBtn:hover {
+  background: var(--color-surface-hover);
   color: var(--color-text);
 }
 

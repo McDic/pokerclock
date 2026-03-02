@@ -14,8 +14,8 @@ function getTimerClass(
 ): string {
   if (isBreak) return styles.break;
   if (!isRunning) return styles.paused;
-  if (remainingSeconds <= 10) return styles.danger;
-  if (remainingSeconds <= 60) return styles.warning;
+  if (remainingSeconds <= 30) return styles.danger;
+  if (remainingSeconds <= 180) return styles.warning;
   return styles.running;
 }
 
@@ -26,8 +26,8 @@ function getTimerColor(
 ): string {
   if (isBreak) return "var(--color-break)";
   if (!isRunning) return "var(--color-text-muted)";
-  if (remainingSeconds <= 10) return "var(--color-danger)";
-  if (remainingSeconds <= 60) return "var(--color-warning)";
+  if (remainingSeconds <= 30) return "var(--color-danger)";
+  if (remainingSeconds <= 180) return "var(--color-warning)";
   return "var(--color-running)";
 }
 
@@ -43,9 +43,10 @@ export function TimerDisplay() {
   const totalSeconds = level.durationMinutes * 60;
   const progress = totalSeconds > 0 ? ((totalSeconds - remainingSeconds) / totalSeconds) * 100 : 100;
 
-  const label = isBreak
-    ? "Break"
-    : `Level ${currentLevelIndex + 1}`;
+  const blindLevelNumber = structure.levels
+    .slice(0, currentLevelIndex + 1)
+    .filter((l) => l.type !== "break").length;
+  const label = isBreak ? "Break" : `Level ${blindLevelNumber}`;
 
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
